@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Penalty Shootout</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: #3a9bdc;
+    }
+    .goal-container {
+      position: relative;
+      width: 300px;
+      height: 200px;
+      background: #ffffff;
+      border: 5px solid #000;
+      margin-bottom: 20px;
+    }
+    .goalkeeper {
+      position: absolute;
+      bottom: 0;
+      width: 60px;
+      height: 100px;
+      background: red;
+      transition: left 0.5s;
+    }
+    .arrows {
+      display: flex;
+      gap: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Penalty Shootout</h1>
+  <div class="goal-container">
+    <div id="goalkeeper" class="goalkeeper"></div>
+  </div>
+  <div class="arrows">
+    <button onclick="shoot('left')">⬅️ Left</button>
+    <button onclick="shoot('middle')">⬆️ Middle</button>
+    <button onclick="shoot('right')">➡️ Right</button>
+  </div>
+  <p id="score">Score: 0 | Shots: 0</p>
+  <script>
+    let score = 0;
+    let shots = 0;
+
+    function randomKeeperMove() {
+      const positions = ['left', 'middle', 'right'];
+      return positions[Math.floor(Math.random() * positions.length)];
+    }
+
+    function moveGoalkeeper(position) {
+      const keeper = document.getElementById('goalkeeper');
+      if (position === 'left') keeper.style.left = '0px';
+      else if (position === 'middle') keeper.style.left = '120px';
+      else if (position === 'right') keeper.style.left = '240px';
+    }
+
+    function shoot(direction) {
+      if (shots >= 5) return;
+
+      const keeperDirection = randomKeeperMove();
+      moveGoalkeeper(keeperDirection);
+
+      if (direction !== keeperDirection) score++;
+      shots++;
+      document.getElementById('score').textContent = `Score: ${score} | Shots: ${shots}`;
+
+      if (shots === 5) {
+        setTimeout(() => {
+          if (score >= 3) {
+            alert('You win! Now you can buy me a League skin :D');
+          } else {
+            alert('You lose! Try again.');
+          }
+          location.reload();
+        }, 500);
+      }
+    }
+  </script>
+</body>
+</html>
