@@ -18,17 +18,29 @@
       position: relative;
       width: 300px;
       height: 200px;
-      background: #ffffff;
+      background: #aaddaa;
       border: 5px solid #000;
+      background-image: url('https://i.imgur.com/y9Qj6I3.png'); /* Goal net */
+      background-size: cover;
       margin-bottom: 20px;
     }
     .goalkeeper {
       position: absolute;
-      bottom: 0;
+      bottom: 20px;
       width: 60px;
       height: 100px;
-      background: red;
+      background-image: url('https://i.imgur.com/j8L6x6v.png'); /* Cartoon goalkeeper */
+      background-size: cover;
       transition: left 0.5s;
+    }
+    .soccer-ball {
+      position: absolute;
+      bottom: 0;
+      left: 120px;
+      width: 30px;
+      height: 30px;
+      background-image: url('https://i.imgur.com/SBz5l3v.png'); /* Soccer ball */
+      background-size: cover;
     }
     .arrows {
       display: flex;
@@ -44,6 +56,7 @@
   <h1>Penalty Shootout</h1>
   <div class="goal-container">
     <div id="goalkeeper" class="goalkeeper"></div>
+    <div id="ball" class="soccer-ball"></div>
   </div>
   <div class="arrows">
     <button onclick="shoot('left')">⬅️ Left</button>
@@ -67,11 +80,19 @@
       else if (position === 'right') keeper.style.left = '240px';
     }
 
+    function animateBall(direction) {
+      const ball = document.getElementById('ball');
+      if (direction === 'left') ball.style.left = '30px';
+      else if (direction === 'middle') ball.style.left = '120px';
+      else if (direction === 'right') ball.style.left = '240px';
+    }
+
     function shoot(direction) {
       if (shots >= 5) return;
 
       const keeperDirection = randomKeeperMove();
       moveGoalkeeper(keeperDirection);
+      animateBall(direction);
 
       if (direction !== keeperDirection) score++;
       shots++;
@@ -85,7 +106,7 @@
             alert('You lose! Try again.');
           }
           location.reload();
-        }, 500);
+        }, 800);
       }
     }
   </script>
